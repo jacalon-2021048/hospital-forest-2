@@ -1,7 +1,7 @@
 <%-- 
-    Document   : editar-doctor
-    Created on : 25/08/2022, 08:29:43
-    Author     : Juan Pablo Cáceres Enriquez
+    Document   : editar-usuario
+    Created on : 15/09/2022, 13:15:21
+    Author     : Jhonatan Jose Acalón Ajanel <jacalon-2021048@kinal.edu.gt>
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,13 +22,14 @@
 
     <body style="background-image: linear-gradient(175deg, #ffffa6 0, #efffa2 25%, #d5f29d 50%, #bde298 75%, #a8d394 100%);">
         <header>
-            <h1>Citas</h1>
+            <h1>Usuarios</h1>
             <div id="main-header" class="py-2 text-light mt-5">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <h1>
-                                <i class="fa-solid fa-user-doctor"></i> Control Doctores
+                                <i class="fas fa-user-cog"></i> Control 
+                                Usuarios
                             </h1>
                         </div>
                     </div>
@@ -47,7 +48,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-4  m-2">
-                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/ServletDoctor?accion=listar">
+                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/ServletUsuarios?accion=listar">
                                         <i class="fa fa-arrow-left"></i> Cancelar/Regresar
                                     </a>
                                 </div>
@@ -55,27 +56,31 @@
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Editar doctor</h4>
+                                <h4>Editar usuario</h4>
                             </div>
                         </div>
                         <div class="card-body bg-light shadow-lg p-3 mb-5 bg-body rounded">
-                            <form method="POST" action="${pageContext.request.contextPath}/ServletDoctor" class="was-validated">
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletUsuarios" class="was-validated">
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="id" class="col-form-label">Número doctor</label>
-                                        <input type="text" class="form-control" id="id" value="${doctor.idDoctor}" name="id" readonly>
-                                    </div>                                   
+                                        <label for="nombre" class="col-form-label">Nombre usuario</label>
+                                        <input type="text" class="form-control" id="nombre" value="${usuario.getUser()}" name="nombre" readonly>
+                                    </div>
                                     <div class="mb-3">
-                                        <div class="btn-group dropstart col-12">
+                                        <label for="pass" class="col-form-label">Contraseña*</label>
+                                        <input type="password" class="form-control" id="pass" name="pass" value="${usuario.getPass()}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="btn-group col-12">
                                             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
-                                                Horarios*
+                                                Rol elegido: ${usuario.getRolNombre()}*
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <ul class="list-group">
-                                                    <c:forEach items="${dataHorario}" var="horario">
+                                                    <c:forEach items="${dataRol}" var="rol">
                                                         <li class="list-group-item">
-                                                            <input type="radio" class="form-check-input" id="horario" name="horario" value="${horario.idHorario}" required>
-                                                            <label for="horario" class="form-check-label">${horario.idHorario}</label>
+                                                            <input type="radio" class="form-check-input" id="rol" name="rol" value="${rol.idRol}" required>
+                                                            <label for="rol" class="form-check-label">${rol.idRol}  |  ${rol.tipoRol}</label>
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
@@ -85,31 +90,14 @@
                                     <div class="mb-3">
                                         <div class="btn-group dropend col-12">
                                             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
-                                                Personas*
+                                                Persona elegida: ${usuario.getNombrePersona()}*
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <ul class="list-group">
                                                     <c:forEach items="${dataPersona}" var="persona">
                                                         <li class="list-group-item">
-                                                            <input type="radio" class="form-check-input" id="persona" name="persona" value="${persona.id}" required>
-                                                            <label for="persona" class="form-check-label">${persona.id}  |  ${persona.nombre1} | ${persona.apellido1}</label>
-                                                        </li>
-                                                    </c:forEach>
-                                                </ul>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="btn-group col-12">
-                                            <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
-                                                Especialidad*
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <ul class="list-group">
-                                                    <c:forEach items="${dataEspecialidad}" var="especialidad">
-                                                        <li class="list-group-item">
-                                                            <input type="radio" class="form-check-input" id="especialidad" name="especialidad" value="${especialidad.idEspecialidad}" required>
-                                                            <label for="especialidad" class="form-check-label">${especialidad.idEspecialidad} |  ${especialidad.nombreEspecialidad}</label>
+                                                            <input type="radio" class="form-check-input" id="person" name="person" value="${persona.id}" required>
+                                                            <label for="person" class="form-check-label">${persona.id}  |  ${persona.nombre1}  ${persona.apellido1}  | ${persona.sexo}  |  ${persona.telefono}</label>
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
@@ -127,7 +115,7 @@
                                             </button>
                                         </div>
                                         <div class="col-6 text-center">
-                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/ServletDoctor?accion=eliminar&id=${doctor.idDoctor}">
+                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/ServletUsuarios?accion=eliminar&usuario=${usuario.getUser()}">
                                                 <i class="fa fa-trash"></i> Eliminar Registro  
                                             </a>
                                         </div>
@@ -142,7 +130,7 @@
             </div>
         </div>
     </main>
-
+                                                
     <script type="text/javascript" src="../assets/js/jquery-3.6.0.js"></script>
     <script type="text/javascript" src="../assets/js/bootstrap.bundle.js"></script>
 </body>

@@ -27,7 +27,19 @@ public class ServletReceta extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+        String accion = req.getParameter("accion");
+        if(accion != null){
+            switch(accion){
+                case "insertar":
+                        insertarReceta(req, resp);
+                        listarReceta(req, resp);
+                    break;
+                case "actualizar":
+                        actualizarReceta(req, resp);
+                        listarReceta(req,resp);
+                    break;
+            }
+        }
     }
 
     @Override
@@ -41,7 +53,7 @@ public class ServletReceta extends HttpServlet{
                         listarReceta(req, resp);
                     break;
                 case "editar":
-
+                        editarReceta(req,resp);
                     break;
                 case "eliminar":
                         eliminarReceta(req,resp);
@@ -61,6 +73,38 @@ public class ServletReceta extends HttpServlet{
         resp.sendRedirect("recetas/recetas.jsp");
     }           
 
+    public void insertarReceta(HttpServletRequest req, HttpServletResponse resp){
+        String dosisRecomendada = req.getParameter("dosisRecomendada");
+        String medicamentoId = req.getParameter("medicamentoId");
+        String citaId = req.getParameter("citaId");
+        
+        Receta receta = new Receta(dosisRecomendada, medicamentoId, citaId);
+        System.out.println(receta.toString());
+        
+        int insertarRegistros = new RecetaDaoImpl().addReceta(receta);
+    }
+    
+    public void actualizarReceta(HttpServletRequest req, HttpServletResponse resp)throws IOException{
+        int idReceta = Integer.parseInt(req.getParameter("id"));
+        String dosisRecomendada = req.getParameter("dosisRecomendada");
+        String medicamentoId = req.getParameter("medicamentoId");
+        String citaId = req.getParameter("citaId");
+
+        Receta receta = new Receta(idReceta, dosisRecomendada, medicamentoId, citaId);
+        System.out.println(receta.toString());
+        
+        int actualizarRegistro = new RecetaDaoImpl().updateReceta(receta);
+    }
+    
+    public void editarReceta(HttpServletRequest req, HttpServletResponse resp)throws IOException{
+        int idReceta = Integer.parseInt(req.getParameter("id"));
+        Receta receta = new RecetaDaoImpl().get(new Receta(idReceta));
+        System.out.println(receta.toString());
+        HttpSession sesion = req.getSession();
+        sesion.setAttribute("receta", receta);
+        resp.sendRedirect(req.getContextPath() + "/" + "recetas/editar-recetas.jsp");
+    }
+    
     public void eliminarReceta(HttpServletRequest req, HttpServletResponse resp)throws IOException{
         int receta = Integer.parseInt(req.getParameter("id"));
         Receta recetas = new Receta(receta);

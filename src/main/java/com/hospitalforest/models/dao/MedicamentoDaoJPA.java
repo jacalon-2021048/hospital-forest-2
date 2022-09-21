@@ -23,17 +23,41 @@ public class MedicamentoDaoJPA implements IMedicamentoDAO{
 
     @Override
     public int add(Medicamento medicamento) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().persist(medicamento);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            System.out.println("Se produjo un error al insertar el siguiente registro " + medicamento.toString());
+            con.getEntityManager().getTransaction().rollback();
+            e.printStackTrace(System.out);
+        }
+        return rows;
     }
 
     @Override
     public int update(Medicamento medicamento) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().merge(medicamento);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
     
     
     public Medicamento get(Medicamento medicamento) {
-        return (Medicamento) con.getEntityManager().createNamedQuery("Medicamento.find").setParameter("id", medicamento.getIdMedicamento()).getSingleResult();
+        return ((Medicamento)con.getEntityManager()
+                .createNamedQuery("Medicamento.find")
+                .setParameter("id", medicamento.getIdMedicamento())
+                .getSingleResult());
     }
 
     @Override

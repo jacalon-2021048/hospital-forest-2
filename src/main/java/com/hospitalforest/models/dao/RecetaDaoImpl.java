@@ -21,11 +21,20 @@ import java.util.List;
  */
 public class RecetaDaoImpl implements IRecetaDAO{
 
-    private static final String SQL_SELECT="SELECT id_recetas, dosis_recomendada, medicamento_id, cita_id FROM recetas";
+    //private static final String SQL_SELECT="SELECT id_recetas, dosis_recomendada, medicamento_id, cita_id FROM recetas";
+    
+    private static final String SQL_SELECT = "SELECT r.id_recetas, r.dosis_recomendada, CONCAT(\"nombre: \",m.nombre, \" descripcion: \", m.descripcion), CONCAT(\"Descripcion: \",c.descripcion,\" Fecha: \", c.fecha, \" Hora: \", c.hora) FROM recetas as r \n" +
+"INNER JOIN medicamentos as m on r.medicamento_id = m.id_medicamento INNER JOIN citas as c on r.cita_id = c.id_cita;";
     
     private static final String SQL_DELETE = "DELETE FROM recetas Where id_recetas = ?";
     
-    private static final String SQL_SALDO = "select SUM(saldo) FROM recetas;";    
+    private static final String SQL_SALDO = "select SUM(saldo) FROM recetas;"; 
+    
+    private static final String SQL_INSERT = "INSERT INTO recetas (dosis_recomendada, medicamento_id, cita_id) VALUES (?,?,?) ";
+    
+    private static final String SQL_UPDATE = "UPDATE recetas SET dosis_recomendada = ?, medicamento_id = ?, cita_id = ?  Where id_recetas = ?";
+    
+    private static final String SQL_SELECT_BY_ID = "SELECT id_recetas, dosis_recomendada, medicamento_id, cita_id FROM recetas WHERE id_recetas = ?";
     
     private Connection con = null;
     private PreparedStatement pstmt = null;
@@ -42,10 +51,10 @@ public class RecetaDaoImpl implements IRecetaDAO{
             rs = pstmt.executeQuery();
             while(rs.next()){
                 receta = new Receta(
-                        rs.getInt("id_recetas"),
-                        rs.getString("dosis_recomendada"),
-                        rs.getInt("medicamento_id"),
-                        rs.getInt("cita_id")
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
                 );
                 listaReceta.add(receta);
             }
@@ -64,12 +73,53 @@ public class RecetaDaoImpl implements IRecetaDAO{
 
     @Override
     public int addReceta(Receta receta) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        int rows = 0;
+        try{
+            con = Conexion.getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT);
+            pstmt.setString(1, receta.getDosisRecomendada());
+            pstmt.setString(2, receta.getMedicamentoId());
+            pstmt.setString(3, receta.getCitaId());
+            
+            System.out.println(receta.toString());
+            rows = pstmt.executeUpdate();
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+            System.err.println("Erro en el metodo addReceta al intentar insertar el registro: " + receta.toString());
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            Conexion.close(pstmt);
+            Conexion.close(con);
+        }
+        return rows;
     }
 
     @Override
     public int updateReceta(Receta receta) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+      int rows = 0;
+        try{
+            con = Conexion.getConnection();
+            pstmt = con.prepareStatement(SQL_UPDATE);
+            pstmt.setString(1, receta.getDosisRecomendada());
+            pstmt.setString(2, receta.getMedicamentoId());
+            pstmt.setString(3, receta.getCitaId());
+            pstmt.setInt(4, receta.getIdReceta());
+            
+            System.out.println(receta.toString());
+            rows = pstmt.executeUpdate();
+            
+        }catch(SQLException e){
+            e.printStackTrace();
+            System.err.println("Erro en el metodo updateReceta al intentar actualizar el registro: " + receta.toString());
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            Conexion.close(pstmt);
+            Conexion.close(con);
+        }
+        return rows;  
     }
 
     @Override
@@ -104,5 +154,33 @@ public class RecetaDaoImpl implements IRecetaDAO{
         }*/
         return rows;
     }
+    
+    public Receta get(Receta receta) {
+        try {
+            con = Conexion.getConnection();
+            pstmt = con.prepareStatement(SQL_SELECT_BY_ID);
+            pstmt.setInt(1, receta.getIdReceta());
+            System.out.println(pstmt.toString());
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                receta = new Receta(
+                rs.getInt("id_recetas"),
+                rs.getString("dosis_recomendada"),
+                rs.getString("medicamento_id"),
+                rs.getString("cita_id"));
+            }
+            System.out.println("receta: " + receta);
+        } catch (SQLException e) {
+            System.out.println("\nSQLException\n");
+            e.printStackTrace(System.out);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(pstmt);
+            Conexion.close(con);
+        }
+        return receta;
+    }    
 
 }

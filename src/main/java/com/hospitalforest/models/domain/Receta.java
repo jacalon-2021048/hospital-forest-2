@@ -30,10 +30,10 @@ public class Receta implements Serializable{
     private String dosisRecomendada;
     
     @Column(name = "medicamento_id")
-    private int medicamentoId;
+    private String medicamentoId;
     
     @Column(name = "cita_id")
-    private int citaId;
+    private String citaId;
     
     public Receta(){
         
@@ -43,13 +43,13 @@ public class Receta implements Serializable{
         this.idReceta = idReceta;
     }
     
-    public Receta(String dosisRecomendada, int medicamentoId, int citaId){
+    public Receta(String dosisRecomendada, String medicamentoId, String citaId){
         this.dosisRecomendada = dosisRecomendada;
         this.medicamentoId = medicamentoId;
         this.citaId = citaId;
     }
 
-    public Receta(int idReceta, String dosisRecomendada, int medicamentoId, int citaId) {
+    public Receta(int idReceta, String dosisRecomendada, String medicamentoId, String citaId) {
         this.idReceta = idReceta;
         this.dosisRecomendada = dosisRecomendada;
         this.medicamentoId = medicamentoId;
@@ -72,19 +72,19 @@ public class Receta implements Serializable{
         this.dosisRecomendada = dosisRecomendada;
     }
 
-    public int getMedicamentoId() {
+    public String getMedicamentoId() {
         return medicamentoId;
     }
 
-    public void setMedicamentoId(int medicamentoId) {
+    public void setMedicamentoId(String medicamentoId) {
         this.medicamentoId = medicamentoId;
     }
 
-    public int getCitaId() {
+    public String getCitaId() {
         return citaId;
     }
 
-    public void setCitaId(int citaId) {
+    public void setCitaId(String citaId) {
         this.citaId = citaId;
     }
 

@@ -22,12 +22,33 @@ public class EspecialidadesDaoJPA implements IEspecialidadDAO{
 
     @Override
     public int add(Especialidades especialidades) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().persist(especialidades);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            System.out.println("Se produjo un error al insertar el siguiente registro " + especialidades.toString());
+            con.getEntityManager().getTransaction().rollback();
+            e.printStackTrace(System.out);
+        }
+        return rows;
     }
 
     @Override
     public int update(Especialidades especialidades) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().merge(especialidades);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
     
     public Especialidades get(Especialidades especialidades){

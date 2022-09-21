@@ -18,7 +18,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
-
 @Entity
 @Table(name = "doctores")
 @NamedQueries({
@@ -27,27 +26,21 @@ import javax.persistence.NamedQuery;
 })
 
 public class Doctor implements Serializable{
-    
+    private static final long serialVersionUID=1L;
     @Id
     @Column(name = "id_doctor")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idDoctor;
-    
-    @Id
+
     @Column(name = "horario_id")
     private int horarioId;
     
-    @Id
     @Column(name = "persona_id")
-    private int personaId;
+    private String nombrePersona;
     
-    @Id
     @Column(name = "especialidad_id")
-    private int especialidadId;
-    
-    @Column
-    private String nombre1;
-    
+    private String nombreEspecialidad;
+        
     public Doctor(){
         
     }
@@ -56,17 +49,17 @@ public class Doctor implements Serializable{
         this.idDoctor = idDoctor;
     }
     
-    public Doctor(int horarioId, int personaId, int especialidadId){
+    public Doctor(int horarioId, String nombrePersona, String especialidadId){
         this.horarioId = horarioId;
-        this.personaId = personaId;
-        this.especialidadId = especialidadId;
+        this.nombrePersona = nombrePersona;
+        this.nombreEspecialidad = especialidadId;
     }
     
-    public Doctor(int idDoctor, int horarioId, int personaId, int especialidadId){
+    public Doctor(int idDoctor, int horarioId, String nombrePersona, String nombreEspecialidad){
         this.idDoctor = idDoctor;
         this.horarioId = horarioId;
-        this.personaId = personaId;
-        this.especialidadId = especialidadId;
+        this.nombrePersona = nombrePersona;
+        this.nombreEspecialidad = nombreEspecialidad;
     }
 
     public int getIdDoctor() {
@@ -85,38 +78,27 @@ public class Doctor implements Serializable{
         this.horarioId = horarioId;
     }
 
-    public int getPersonaId() {
-        return personaId;
+    public String getNombrePersona() {
+        return nombrePersona;
     }
 
-    public void setPersonaId(int personaId) {
-        this.personaId = personaId;
+    public void setNombrePersona(String nombrePersona) {
+        this.nombrePersona = nombrePersona;
     }
 
-    public int getEspecialidadId() {
-        return especialidadId;
+    public String getNombreEspecialidad() {
+        return nombreEspecialidad;
     }
 
-    public void setEspecialidadId(int especialidadId) {
-        this.especialidadId = especialidadId;
-    }
-    
-    public String getNombre1(){
-        return nombre1;
-    }
-    
-    public void setNombre1(){
-        this.nombre1 = nombre1;
+    public void setNombreEspecialidad(String nombreEspecialidad) {
+        this.nombreEspecialidad = nombreEspecialidad;
     }
 
     @Override
     public String toString() {
         return "Doctor{" + "id_doctor=" + idDoctor
                 + ", horario_id=" + horarioId 
-                + ", persona_id=" + personaId 
-                + ", especialidad_id=" + especialidadId 
-                + ", Nombre" + "\n";
+                + ", persona_id=" + nombrePersona 
+                + ", especialidad_id=" + nombreEspecialidad;
     }
-    
-    
 }

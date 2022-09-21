@@ -45,13 +45,85 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary btn-block" id="btn-agregar">
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" id="btn-agregar">
                                 Agregar doctor
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
+            
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar doctor</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="${pageContext.request.contextPath}/ServletDoctor" class="was-validated">
+                            <div class="modal-body">                               
+                                <div class="mb-3">
+                                    <div class="btn-group dropstart col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Horarios*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataHorario}" var="horario">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="horario" name="horario" value="${horario.idHorario}" required>
+                                                        <label for="horario" class="form-check-label">${horario.idHorario}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group dropend col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Personas*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataPersona}" var="persona">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="persona" name="persona" value="${persona.id}" required>
+                                                        <label for="persona" class="form-check-label">${persona.id}  |  ${persona.nombre1} | ${persona.apellido1}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Especialidad*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataEspecialidad}" var="especialidad">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="especialidad" name="especialidad" value="${especialidad.idEspecialidad}" required>
+                                                        <label for="especialidad" class="form-check-label">${especialidad.idEspecialidad} |  ${especialidad.nombreEspecialidad}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <h6>*Campos obligatorios</h6>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <!-- Tabla con listado de estudiantes -->
             <section id="estudiante">
@@ -80,10 +152,13 @@
                                         <tr>
                                             <td>${doctor.idDoctor}</td>
                                             <td>${doctor.horarioId}</td> 
-                                            <td>${doctor.personaId}</td>
-                                            <td>${doctor.especialidadId}</td>
+                                            <td>${doctor.nombrePersona}</td>
+                                            <td>${doctor.nombreEspecialidad}</td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-danger"
+                                                   href="${pageContext.request.contextPath}/ServletDoctor?accion=editar&id=${doctor.idDoctor}">
+                                                    <i class="fa fa-edit"></i> Editar
+                                                </a>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletDoctor?accion=eliminar&id=${doctor.idDoctor}">

@@ -24,7 +24,54 @@ public class ServletPacientes extends HttpServlet{
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        System.out.println("doPost");
+        String accion = request.getParameter("accion");
+        System.out.println(accion);
+        
+        if(accion != null){
+            switch(accion){
+                case "insertar":
+                    //ACCION PARA AGREGAR
+                    insertarPaciente(request, response);
+                    break;
+                case "actualizar":
+                    //Accion para actualizar
+                    actualizarPaciente(request, response);
+                    listarPaciente(request, response);
+                    break;
+                default:
+                    System.out.println("Opcion no valida");
+                    break;
+            }
+        }
+    }
+    
+    public void insertarPaciente(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        request.setCharacterEncoding("UTF-8");
+        int seguro = Integer.parseInt(request.getParameter("seguro"));
+        String emergencia = request.getParameter("emergencia");
+        String persona = request.getParameter("persona");
+        
+        Paciente paciente = new Paciente(seguro, emergencia, persona);
+        System.out.println(paciente);
+        
+        int registrosInsertados = new PacienteDaolmpl().add(paciente);
+        
+        listarPaciente(request, response);
+    }
+    
+    public void actualizarPaciente(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        System.out.println("Esta bien el metodo Actualizar");
+        int id = Integer.parseInt(request.getParameter("id"));
+        
+        int seguro = Integer.parseInt(request.getParameter("seguro"));
+        String contacto = request.getParameter("emergencia");
+        String idPersona = request.getParameter("persona");
+        
+        Paciente paciente = new Paciente(id, seguro, contacto, idPersona);
+        System.out.println(paciente.toString());
+        
+        int registrosActualizados = new PacienteDaolmpl().update(paciente);
     }
 
     @Override
@@ -37,6 +84,7 @@ public class ServletPacientes extends HttpServlet{
                     break;
                 case "editar":
                     //otras acciones...
+                    editarPacientes(request, response);
                     break;
                 case "eliminar":
                     //eliminar...
@@ -58,6 +106,21 @@ public class ServletPacientes extends HttpServlet{
         }
         listarPaciente(request, response);
     }
+    
+    private void editarPacientes(HttpServletRequest request, HttpServletResponse response)throws IOException{
+        //Recuperar el id del estudiante
+        int idPaciente = Integer.parseInt(request.getParameter("id"));
+        
+        //Crear un objeto de tipo estudiante
+        Paciente paciente = new PacienteDaolmpl()
+                .get(new Paciente(idPaciente));
+        
+        System.out.println(paciente.toString());
+        
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("paciente", paciente);
+        response.sendRedirect(request.getContextPath() + "/" + "pacientes/editar-pacientes.jsp");
+        }
     
     private void listarPaciente(HttpServletRequest request, HttpServletResponse response) throws IOException{
         List<Paciente> listarPacientes = new PacienteDaolmpl().getAll();

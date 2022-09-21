@@ -24,12 +24,34 @@ public class RolDaoJPA implements IRolDAO{
 
     @Override
     public int addRol(Rol rol) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try{
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().persist(rol);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        }catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Ocurrio un erro en el metodo addRol en el JPA al intentar insertar " + rol.toString());
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
 
     @Override
     public int updateRol(Rol rol) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try{
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().merge(rol);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        }catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Ocurrio un erro en el metodo updateRol en el JPA al intentar insertar " + rol.toString());
+            con.getEntityManager().getTransaction().rollback();            
+        }
+        return rows;
     }
     
     public Rol get(Rol rol){

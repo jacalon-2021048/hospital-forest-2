@@ -22,7 +22,59 @@ public class ServletEdificios extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
 
+        String accion = request.getParameter("accion");
+
+        if (accion != null) {
+            switch (accion) {
+                case "insertar":
+                    insertarEdificio(request, response);
+                    break;
+                case "actualizar":
+                    actualizarEdificio(request, response);
+                    break;
+            }
+        }
+    }
+    
+     
+    private void actualizarEdificio(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("idEdificio"));
+        String nombreEdificio = request.getParameter("edificio");
+        
+        
+        Edificios edificio = new Edificios(id, nombreEdificio);
+        
+        System.out.println(edificio.toString());
+        
+        //Con JDBC---------------------------------------------------------------
+        //int registrosActualizados = new EdificioDaoImpl().update(edificio);
+        //-----------------------------------------------------------------------
+
+        //Con JPA-----------------------------------------------------------------
+        int registrosActualizados = new EdificioDaoJPA().update(edificio);
+        //-----------------------------------------------------------------------
+       
+        listarEdificios(request, response);
+
+    }
+    
+    private void insertarEdificio(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String nombreEdificio = request.getParameter("edificio");
+
+        Edificios edificio = new Edificios(nombreEdificio);
+        System.out.println(edificio);
+
+        //JDBC------------------------------------------------------------------
+        //int registrosInsertados = new EdificioDaoImpl().add(edificio);
+        //----------------------------------------------------------------------
+        
+        //JPA-------------------------------------------------------------------
+        int registrosInsertados = new EdificioDaoJPA().add(edificio);
+        //----------------------------------------------------------------------
+
+        listarEdificios(request, response);
     }
 
     @Override
@@ -34,7 +86,7 @@ public class ServletEdificios extends HttpServlet{
                     listarEdificios(request, response);
                     break;
                 case "editar":
-                    //otras acciones...
+                    editarEdificio(request, response);
                     break;
                 case "eliminar":
                     eliminarEdificio(request, response);
@@ -45,6 +97,18 @@ public class ServletEdificios extends HttpServlet{
             }
         } 
     }
+    
+    private void editarEdificio(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int idEdificio = Integer.parseInt(request.getParameter("idEdificio"));
+        
+        Edificios edificio = new EdificioDaoImpl().get(new Edificios(idEdificio));
+        
+        System.out.println(edificio.toString());
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("edificio", edificio);
+        response.sendRedirect(request.getContextPath() + "/" + "edificio/editar-edificios.jsp");
+    }
+
     
     private void eliminarEdificio(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int idEdificio = Integer.parseInt(request.getParameter("idEdificio"));
@@ -71,11 +135,11 @@ public class ServletEdificios extends HttpServlet{
     
     private void listarEdificios(HttpServletRequest request, HttpServletResponse response) throws IOException{
         //Con JDBC---------------------------------------------------------------
-        //List<Edificios> listarEdificios = new EdificioDaoImpl().getAll();
+        List<Edificios> listaEdificios = new EdificioDaoImpl().getAll();
         //-----------------------------------------------------------------------
         
         //Con JPA-----------------------------------------------------------------
-        List <Edificios> listaEdificios = new EdificioDaoJPA().getAll();
+        //List <Edificios> listaEdificios = new EdificioDaoJPA().getAll();
         //-----------------------------------------------------------------------
         
         HttpSession sesion = request.getSession();

@@ -1,7 +1,7 @@
 <%-- 
-    Document   : editar-doctor
-    Created on : 25/08/2022, 08:29:43
-    Author     : Juan Pablo Cáceres Enriquez
+    Document   : editar-cita
+    Created on : 15/09/2022, 19:34:47
+    Author     : Jhonatan Jose Acalón Ajanel <jacalon-2021048@kinal.edu.gt>
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -28,7 +28,8 @@
                     <div class="row">
                         <div class="col-12">
                             <h1>
-                                <i class="fa-solid fa-user-doctor"></i> Control Doctores
+                                <i class="fas fa-user-cog"></i> Control 
+                                Citas
                             </h1>
                         </div>
                     </div>
@@ -47,7 +48,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-4  m-2">
-                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/ServletDoctor?accion=listar">
+                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/ServletCitas?accion=listar">
                                         <i class="fa fa-arrow-left"></i> Cancelar/Regresar
                                     </a>
                                 </div>
@@ -55,27 +56,39 @@
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Editar doctor</h4>
+                                <h4>Editar cita</h4>
                             </div>
                         </div>
                         <div class="card-body bg-light shadow-lg p-3 mb-5 bg-body rounded">
-                            <form method="POST" action="${pageContext.request.contextPath}/ServletDoctor" class="was-validated">
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletCitas" class="was-validated">
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="id" class="col-form-label">Número doctor</label>
-                                        <input type="text" class="form-control" id="id" value="${doctor.idDoctor}" name="id" readonly>
-                                    </div>                                   
+                                        <label for="id" class="col-form-label">Número cita</label>
+                                        <input type="text" class="form-control" id="id" value="${cita.idCita}" name="id" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="descripcion" class="col-form-label">Descripción</label>
+                                        <input type="text" class="form-control" id="descripcion" name="descripcion" value="${cita.descripcion}" required="">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fecha" class="col-form-label">Fecha*</label>
+                                        <input type="date" class="form-control" id="fecha" name="fecha" min="2005-01-01" max="2022-12-31" value="${cita.fecha}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="hora" class="col-form-label">Hora*</label>
+                                        <input type="time" class="form-control" id="hora" name="hora" value="${cita.hora}" required>
+                                    </div>
                                     <div class="mb-3">
                                         <div class="btn-group dropstart col-12">
                                             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
-                                                Horarios*
+                                                Doctor elegido: ${cita.nombreDoctor}*
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <ul class="list-group">
-                                                    <c:forEach items="${dataHorario}" var="horario">
+                                                    <c:forEach items="${dataDoctor}" var="doctor">
                                                         <li class="list-group-item">
-                                                            <input type="radio" class="form-check-input" id="horario" name="horario" value="${horario.idHorario}" required>
-                                                            <label for="horario" class="form-check-label">${horario.idHorario}</label>
+                                                            <input type="radio" class="form-check-input" id="doctor" name="doctor" value="${doctor.idDoctor}" required>
+                                                            <label for="doctor" class="form-check-label">${doctor.idDoctor}  |  ${doctor.nombrePersona}</label>
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
@@ -85,14 +98,14 @@
                                     <div class="mb-3">
                                         <div class="btn-group dropend col-12">
                                             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
-                                                Personas*
+                                                Paciente elegido: ${cita.nombrePaciente}*
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <ul class="list-group">
-                                                    <c:forEach items="${dataPersona}" var="persona">
+                                                    <c:forEach items="${dataPaciente}" var="paciente">
                                                         <li class="list-group-item">
-                                                            <input type="radio" class="form-check-input" id="persona" name="persona" value="${persona.id}" required>
-                                                            <label for="persona" class="form-check-label">${persona.id}  |  ${persona.nombre1} | ${persona.apellido1}</label>
+                                                            <input type="radio" class="form-check-input" id="paciente" name="paciente" value="${paciente.idPacientes}" required>
+                                                            <label for="paciente" class="form-check-label">${paciente.idPacientes}  |  ${paciente.nombrePersona}</label>
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
@@ -102,14 +115,14 @@
                                     <div class="mb-3">
                                         <div class="btn-group col-12">
                                             <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
-                                                Especialidad*
+                                                Habitacion elegida: ${cita.habitacionId}*
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <ul class="list-group">
-                                                    <c:forEach items="${dataEspecialidad}" var="especialidad">
+                                                    <c:forEach items="${dataHabitaciones}" var="habitacion">
                                                         <li class="list-group-item">
-                                                            <input type="radio" class="form-check-input" id="especialidad" name="especialidad" value="${especialidad.idEspecialidad}" required>
-                                                            <label for="especialidad" class="form-check-label">${especialidad.idEspecialidad} |  ${especialidad.nombreEspecialidad}</label>
+                                                            <input type="radio" class="form-check-input" id="habitacion" name="habitacion" value="${habitacion.id}" required>
+                                                            <label for="habitacion" class="form-check-label">${habitacion.id}</label>
                                                         </li>
                                                     </c:forEach>
                                                 </ul>
@@ -127,7 +140,7 @@
                                             </button>
                                         </div>
                                         <div class="col-6 text-center">
-                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/ServletDoctor?accion=eliminar&id=${doctor.idDoctor}">
+                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/ServletCitas?accion=eliminar&id=${cita.idCita}">
                                                 <i class="fa fa-trash"></i> Eliminar Registro  
                                             </a>
                                         </div>

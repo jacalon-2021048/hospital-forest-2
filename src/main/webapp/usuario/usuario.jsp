@@ -36,21 +36,84 @@
                 </div>
             </div>
         </header>
-        
+
         <jsp:include page="../WEB-INF/paginas/comunes/cabecera.jsp" />
-        
+
         <main>
             <section id="accions" class="py-4 mb-4">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary" id="btn-agregar">
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" id="btn-agregar">
                                 Agregar usuario
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar usuario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="${pageContext.request.contextPath}/ServletUsuarios" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="nombre" class="col-form-label">Nombre usuario*</label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pass" class="col-form-label">Contraseña*</label>
+                                    <input type="password" class="form-control" id="pass" name="pass" required>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group dropstart col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Roles*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataRol}" var="rol">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="rol" name="rol" value="${rol.idRol}" required>
+                                                        <label for="rol" class="form-check-label">${rol.idRol}  |  ${rol.tipoRol}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group dropend col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Personas*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataPersona}" var="persona">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="person" name="person" value="${persona.id}" required>
+                                                        <label for="person" class="form-check-label">${persona.id}  |  ${persona.nombre1}  ${persona.apellido1}  | ${persona.sexo}  |  ${persona.telefono}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <h6>*Campos obligatorios</h6>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <section>
                 <div class="container mb-5 pb-5">
@@ -67,7 +130,7 @@
                                         <th>Nombre usuario</th>
                                         <th>Contraseña</th>
                                         <th>Tipo rol</th>
-                                        <th>ID persona</th>
+                                        <th>Nombre persona</th>
                                         <th>Editar</th>
                                         <th>Eliminar</th>
                                     </tr>
@@ -77,9 +140,14 @@
                                         <tr>
                                             <td>${usuario.user}</td>
                                             <td>${usuario.pass}</td>
-                                            <td>${usuario.rolId}</td>
-                                            <td>${usuario.personaId}</td>
-                                            <td><i class="fa fa-edit"></i> Editar</td>
+                                            <td>${usuario.rolNombre}</td>
+                                            <td>${usuario.nombrePersona}</td>
+                                            <td>
+                                                <a class="btn btn-danger"
+                                                    href="${pageContext.request.contextPath}/ServletUsuarios?accion=editar&user=${usuario.user}">
+                                                    <i class="fa fa-edit"></i>Editar
+                                                </a>
+                                            </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletUsuarios?accion=eliminar&usuario=${usuario.user}">
                                                     <i class="fa fa-trash-alt"></i>Eliminar
@@ -102,7 +170,7 @@
                 </div>
             </section>
         </main>
-        
+
         <script type="text/javascript" src="../assets/js/jquery-3.6.0.js"></script>
         <script type="text/javascript" src="../assets/js/bootstrap.bundle.js"></script>
     </body>

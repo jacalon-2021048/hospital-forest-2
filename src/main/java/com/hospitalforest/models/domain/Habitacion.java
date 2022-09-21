@@ -23,7 +23,7 @@ import javax.persistence.NamedQuery;
 })
 
 
-public class Habitacion {
+public class Habitacion implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
@@ -77,7 +77,7 @@ public class Habitacion {
         this.nivel = nivel;
     }
 
-    public boolean isOcupado() {
+    public boolean getOcupado() {
         return ocupado;
     }
 

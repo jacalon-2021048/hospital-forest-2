@@ -21,12 +21,33 @@ public class EdificioDaoJPA implements IEdificioDAO {
 
     @Override
     public int add(Edificios edificio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().persist(edificio);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            System.out.println("Se produjo un error al intentar insertar el registro " + edificio.toString());
+            e.printStackTrace(System.out);
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
 
     @Override
     public int update(Edificios edificio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().merge(edificio);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
 
     @Override

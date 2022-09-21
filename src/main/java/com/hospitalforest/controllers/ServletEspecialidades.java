@@ -23,11 +23,23 @@ import com.hospitalforest.models.domain.Especialidades;
 public class ServletEspecialidades extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException{
-        
+        request.setCharacterEncoding("UTF-8");
+        String accion=request.getParameter("accion");
+        if (accion != null) {
+            switch (accion) {
+                case "insertar":
+                    insertarEspecialidad(request, response);
+                    break;
+                case "actualizar":
+                    actualizarEspecialidad(request, response);
+                    break;
+            }
+        }
     }
     
     @Override
     protected void doGet(HttpServletRequest request,HttpServletResponse response) throws IOException{
+        request.setCharacterEncoding("UTF-8");
         String accion=request.getParameter("accion");
         if(accion!=null){
             switch(accion){
@@ -36,7 +48,7 @@ public class ServletEspecialidades extends HttpServlet{
                     break;
                     
                 case "editar":
-                    //acciones
+                    editarEspecialidad(request,response);
                     break;
                     
                 case "eliminar":
@@ -47,7 +59,6 @@ public class ServletEspecialidades extends HttpServlet{
     }
     
     private void listarEspecialidades(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //      List<Especialidades> listaEspecialidades= new EspecialidadesDaoImpl().getAll();
         List<Especialidades> listaEspecialidades = new EspecialidadesDaoJPA().getAll();
         HttpSession sesion = request.getSession();
         sesion.setAttribute("data", listaEspecialidades);
@@ -67,5 +78,30 @@ public class ServletEspecialidades extends HttpServlet{
             System.out.println("Se produjo un error al intentar eliminar la siguiente especialidad: " + especialidad.toString());
         }
         listarEspecialidades(request, response);
+    }
+    
+    private void insertarEspecialidad(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String nombre=request.getParameter("especialidad");
+        Especialidades especialidad=new Especialidades(nombre);
+        System.out.println(especialidad.toString());
+        int registrosInsertados=new EspecialidadesDaoJPA().add(especialidad);
+        listarEspecialidades(request, response);
+    }
+    
+    private void actualizarEspecialidad(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id=Integer.parseInt(request.getParameter("id"));
+        String nombre=request.getParameter("especialidad");
+        Especialidades especialidad=new Especialidades(id, nombre);
+        int registrosInsertados=new EspecialidadesDaoJPA().update(especialidad);
+        listarEspecialidades(request, response);
+    }
+    
+    private void editarEspecialidad(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id=Integer.parseInt(request.getParameter("id"));
+        Especialidades especialidad=new EspecialidadesDaoJPA().get(new Especialidades(id));
+        HttpSession sesion = request.getSession();
+        sesion.setAttribute("especialidad", especialidad);
+        response.sendRedirect(request.getContextPath() + "/" + "especialidad/editar-especialidad.jsp");
+    
     }
 }

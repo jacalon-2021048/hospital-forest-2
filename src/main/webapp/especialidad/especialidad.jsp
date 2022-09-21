@@ -44,13 +44,38 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary" id="btn-agregar">
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" id="btn-agregar">
                                 Agregar especialidad
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
+            
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar especialidad</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="${pageContext.request.contextPath}/ServletEspecialidades" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="especialidad" class="col-form-label">Nombre especialidad*</label>
+                                    <input type="text" class="form-control" id="especialidad" name="especialidad" required>
+                                </div>
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <h6>*Campos obligatorios</h6>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             
             <section>
                 <div class="container mb-5 pb-5">
@@ -75,7 +100,12 @@
                                         <tr>
                                             <td>${especialidad.idEspecialidad}</td>
                                             <td>${especialidad.nombreEspecialidad}</td>
-                                            <td><i class="fa fa-edit"></i> Editar</td>
+                                            <td>
+                                                <a class="btn btn-danger"
+                                                    href="${pageContext.request.contextPath}/ServletEspecialidades?accion=editar&id=${especialidad.idEspecialidad}">
+                                                    <i class="fa fa-edit"></i> Editar
+                                                </a>
+                                            </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletEspecialidades?accion=eliminar&id=${especialidad.idEspecialidad}">
                                                     <i class="fa fa-trash-alt"></i>Eliminar

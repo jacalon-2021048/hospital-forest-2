@@ -1,7 +1,7 @@
 <%-- 
-    Document   : editar-medicamento
-    Created on : 25/08/2022, 08:29:59
-    Author     : Juan Pablo Cáceres Enriquez
+    Document   : editar-especialidad
+    Created on : 15/09/2022, 19:31:56
+    Author     : Jhonatan Jose Acalón Ajanel <jacalon-2021048@kinal.edu.gt>
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -22,13 +22,14 @@
 
     <body style="background-image: linear-gradient(175deg, #ffffa6 0, #efffa2 25%, #d5f29d 50%, #bde298 75%, #a8d394 100%);">
         <header>
-            <h1>Medicamento</h1>
+            <h1>Especialidad</h1>
             <div id="main-header" class="py-2 text-light mt-5">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <h1>
-                                <i class="fa-solid fa-capsules"></i> Control Medicamento
+                                <i class="fas fa-user-cog"></i> Control 
+                                Especialidad
                             </h1>
                         </div>
                     </div>
@@ -47,7 +48,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-4  m-2">
-                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/ServletMedicamento?accion=listar">
+                                    <a class="btn btn-info" href="${pageContext.request.contextPath}/ServletEspecialidades?accion=listar">
                                         <i class="fa fa-arrow-left"></i> Cancelar/Regresar
                                     </a>
                                 </div>
@@ -55,27 +56,19 @@
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <h4>Editar medicamento</h4>
+                                <h4>Editar especialidad</h4>
                             </div>
                         </div>
                         <div class="card-body bg-light shadow-lg p-3 mb-5 bg-body rounded">
-                            <form method="POST" action="${pageContext.request.contextPath}/ServletMedicamento" class="was-validated">
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletEspecialidades" class="was-validated">
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="id" class="col-form-label">Número medicamento</label>
-                                        <input type="text" class="form-control" id="id" value="${medicamento.idMedicamento}" name="id" readonly>
+                                        <label for="id" class="col-form-label">Número especialidad</label>
+                                        <input type="text" class="form-control" id="id" value="${especialidad.idEspecialidad}" name="id" readonly>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="medicamento" class="col-form-label">Nombre medicamento*</label>
-                                        <input type="text" class="form-control" id="medicamento" value="${medicamento.nombre}" name="medicamento" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="descripcion" class="col-form-label">Descripción</label>
-                                        <input type="text" class="form-control" id="descripcion" name="descripcion" value="${medicamento.descripcion}" required="">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="fecha" class="col-form-label">Fecha caducidad*</label>
-                                        <input type="date" class="form-control" id="fecha" name="fecha" min="2005-01-01" max="2030-12-31" value="${medicamento.fechaCaducidad}" required>
+                                        <label for="especialidad" class="col-form-label">Nombre especialidad*</label>
+                                        <input type="text" class="form-control" id="especialidad" value="${especialidad.nombreEspecialidad}" name="especialidad" required>
                                     </div>
                                     <input type="hidden" value="actualizar" name="accion">
                                     <h6>*Campos obligatorios</h6>
@@ -88,7 +81,7 @@
                                             </button>
                                         </div>
                                         <div class="col-6 text-center">
-                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/ServletMedicamento?accion=eliminar&id=${medicamento.idMedicamento}">
+                                            <a class="btn btn-danger" href="${pageContext.request.contextPath}/ServletEspecialidades?accion=eliminar&id=${especialidad.idEspecialidad}">
                                                 <i class="fa fa-trash"></i> Eliminar Registro  
                                             </a>
                                         </div>

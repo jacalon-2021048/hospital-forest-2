@@ -30,19 +30,19 @@ public class Usuarios implements Serializable{
     @Column(name = "pass")
     private String pass;
     @Column(name = "rol_id")
-    private int rolId;
+    private String rolNombre;
     @Column(name = "persona_id")
-    private int personaId;
+    private String nombrePersona;
 
     public Usuarios() {
         
     }
 
-    public Usuarios(String user, String pass, int rolId, int personaId) {
+    public Usuarios(String user, String pass, String rolNombre, String nombrePersona) {
         this.user = user;
         this.pass = pass;
-        this.rolId = rolId;
-        this.personaId = personaId;
+        this.rolNombre = rolNombre;
+        this.nombrePersona = nombrePersona;
     }
 
     public Usuarios(String user) {
@@ -65,19 +65,26 @@ public class Usuarios implements Serializable{
         this.pass = pass;
     }
 
-    public int getRolId() {
-        return rolId;
+    public String getRolNombre() {
+        return rolNombre;
     }
 
-    public void setRolId(int rolId) {
-        this.rolId = rolId;
+    public void setRolNombre(String rolNombre) {
+        this.rolNombre = rolNombre;
     }
 
-    public int getPersonaId() {
-        return personaId;
+    public String getNombrePersona() {
+        return nombrePersona;
     }
 
-    public void setPersonaId(int personaId) {
-        this.personaId = personaId;
+    public void setNombrePersona(String nombrePersona) {
+        this.nombrePersona = nombrePersona;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuarios{" + "user=" + user + ", pass=" + pass + 
+                ", rolNombre=" + rolNombre + 
+                ", nombrePersona=" + nombrePersona + '}';
     }
 }

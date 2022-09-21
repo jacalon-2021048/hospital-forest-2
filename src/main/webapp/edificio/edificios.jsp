@@ -43,13 +43,48 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary" id="btn-agregar">
+                            <a href="#" class="btn btn-primary" id="btn-agregar" data-bs-toggle="modal" data-bs-target="#addModal">
+
                                 Agregar edificio
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar Edificios</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form method="POST" action="${pageContext.request.contextPath}/ServletEdificio" class="was-validated">
+
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label for="edificio" class="col-form-label">Nombre Edificio</label>
+                                    <input type="text" class="form-control" id="edificio" name="edificio" required>
+                                </div>
+
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
             <section>
                 <div class="container mt-5 mb-5 pb-5">
                     <div class="row">
@@ -75,11 +110,15 @@
                                             <td>${edificio.id}</td>
                                             <td>${edificio.nombreEdificio}</td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-success" href="${pageContext.request.contextPath}/ServletEdificio?accion=editar&idEdificio=${edificio.id}">
+
+                                                    <i class="fa fa-edit"></i> Editar
+                                                <a/>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletEdificio?accion=eliminar&idEdificio=${edificio.id}">
                                                     <i class="fa fa-trash-alt"></i>Eliminar
+                                                <a/>
                                             </td>
                                         </tr>
                                     </c:forEach>

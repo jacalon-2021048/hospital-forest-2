@@ -25,7 +25,17 @@ public class ServletRol extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-       
+       req.setCharacterEncoding("UTF-8");
+       String accion = req.getParameter("accion");
+       switch(accion){
+           case "insertar":
+                    insertarRegistro(req, resp);
+               break;
+           case "actualizar":
+                    actualizarRegistro(req, resp);
+                    listarRol(req, resp);
+               break;
+       }
     }
 
     @Override
@@ -38,7 +48,7 @@ public class ServletRol extends HttpServlet{
                         listarRol(req, resp);
                     break;
                 case "editar":
-                    
+                        editarRol(req, resp);
                     break;
                 case "eliminar":
                         eliminarRol(req, resp);
@@ -49,6 +59,36 @@ public class ServletRol extends HttpServlet{
                     break;
             }
         }
+    }
+    
+    public void insertarRegistro(HttpServletRequest req, HttpServletResponse resp)throws IOException{
+        String tipoRol = req.getParameter("tipoRol");
+        
+        Rol rol = new Rol(tipoRol);
+        System.out.println(rol.toString());
+        
+        int insertarRol = new RolDaoJPA().addRol(rol);
+        listarRol(req, resp);
+    }
+    
+    public void actualizarRegistro(HttpServletRequest req, HttpServletResponse resp){
+        int idRol = Integer.parseInt(req.getParameter("id"));
+        String tipoRol = req.getParameter("tipoRol");
+        
+        Rol rol = new Rol(idRol, tipoRol);
+        System.out.println(rol.toString());
+        
+        int registroActualizar = new RolDaoJPA().updateRol(rol);
+        
+    }
+    
+    public void editarRol(HttpServletRequest req, HttpServletResponse resp)throws IOException{
+        int idRol = Integer.parseInt(req.getParameter("id"));
+        Rol rol = new RolDaoJPA().get(new Rol(idRol));
+        System.out.println(rol.toString());
+        HttpSession sesion = req.getSession();
+        sesion.setAttribute("rol", rol);
+        resp.sendRedirect(req.getContextPath() + "/" + "rol/editar-rol.jsp");
     }
     
     public void listarRol(HttpServletRequest req, HttpServletResponse resp) throws IOException{

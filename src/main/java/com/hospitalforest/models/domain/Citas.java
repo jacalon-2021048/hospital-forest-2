@@ -40,9 +40,9 @@ public class Citas implements Serializable{
     @Column(name = "hora")
     private LocalTime hora;
     @Column(name = "doctor_id")
-    private int doctorId;
+    private String nombreDoctor;
     @Column(name = "paciente_id")
-    private int pacienteId;
+    private String nombrePaciente;
     @Column(name = "habitacion_id")
     private int habitacionId;
 
@@ -54,22 +54,22 @@ public class Citas implements Serializable{
         this.idCita = idCita;
     }
 
-    public Citas(String descripcion, LocalDate fecha, LocalTime hora, int doctorId, int pacienteId, int habitacionId) {
+    public Citas(String descripcion, LocalDate fecha, LocalTime hora, String nombreDoctor, String nombrePaciente, int habitacionId) {
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
-        this.doctorId = doctorId;
-        this.pacienteId = pacienteId;
+        this.nombreDoctor = nombreDoctor;
+        this.nombrePaciente = nombrePaciente;
         this.habitacionId = habitacionId;
     }
 
-    public Citas(int idCita, String descripcion, LocalDate fecha, LocalTime hora, int doctorId, int pacienteId, int habitacionId) {
+    public Citas(int idCita, String descripcion, LocalDate fecha, LocalTime hora, String nombreDoctor, String nombrePaciente, int habitacionId) {
         this.idCita = idCita;
         this.descripcion = descripcion;
         this.fecha = fecha;
         this.hora = hora;
-        this.doctorId = doctorId;
-        this.pacienteId = pacienteId;
+        this.nombreDoctor = nombreDoctor;
+        this.nombrePaciente = nombrePaciente;
         this.habitacionId = habitacionId;
     }
 
@@ -105,20 +105,20 @@ public class Citas implements Serializable{
         this.hora = hora;
     }
 
-    public int getDoctorId() {
-        return doctorId;
+    public String getNombreDoctor() {
+        return nombreDoctor;
     }
 
-    public void setDoctorId(int doctorId) {
-        this.doctorId = doctorId;
+    public void setNombreDoctor(String nombreDoctor) {
+        this.nombreDoctor = nombreDoctor;
     }
 
-    public int getPacienteId() {
-        return pacienteId;
+    public String getNombrePaciente() {
+        return nombrePaciente;
     }
 
-    public void setPacienteId(int pacienteId) {
-        this.pacienteId = pacienteId;
+    public void setNombrePaciente(String nombrePaciente) {
+        this.nombrePaciente = nombrePaciente;
     }
 
     public int getHabitacionId() {
@@ -127,5 +127,14 @@ public class Citas implements Serializable{
 
     public void setHabitacionId(int habitacionId) {
         this.habitacionId = habitacionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Citas{" + "idCita=" + idCita + ", descripcion=" + descripcion 
+                + ", fecha=" + fecha + ", hora=" + hora 
+                + ", nombreDoctor=" + nombreDoctor 
+                + ", nombrePaciente=" + nombrePaciente 
+                + ", habitacionId=" + habitacionId + '}';
     }
 }

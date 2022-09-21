@@ -26,12 +26,35 @@ public class HorarioDaoJPA implements IHorarioDAO{
 
     @Override
     public int updateHorario(Horario horario) {
-        return 2;
+        int rows = 0;
+        try{
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().merge(horario);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        }catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Error en metodo updateHorario del JPA al intentar actualizar el registro " + horario.toString());
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
 
+    
     @Override
     public int addHorario(Horario horario) {
-        return 3;
+        int rows = 0;
+        try{
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().persist(horario);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;           
+        }catch(Exception e){
+            e.printStackTrace(System.out);
+            System.err.println("Ocurrio un error a la hora de añadir un registro en el metodo add del JPA con el registro " + horario.toString());
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
     
     public Horario get(Horario horario){

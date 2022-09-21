@@ -42,11 +42,45 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary btn-block" 
+                            <a href="#" class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" 
                                id="btn-agregar">Agregar Recetas</a>
                         </div>
                     </div>
                 </div>
+                
+                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Agregar Receta</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletReceta" class="was-validated">
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <label for="dosisRecomendada-id" class="col-form-label">Dosis Recomendada*</label>
+                                        <input type="text" class="form-control" id="dosisRecomendada-id" name="dosisRecomendada" value="${receta.getDosisRecomendada()}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="medicamentoId-id" class="col-form-label">Medicamentos*</label>
+                                        <input type="text" class="form-control" id="medicamentoId-id" name="medicamentoId" value="${receta.getMedicamentoId()}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="citaId-id" class="col-form-label">Citas*</label>
+                                        <input type="text" class="form-control" id="citaId-id" name="citaId" value="${receta.getCitaId()}" required>
+                                    </div>
+                                    <input type="hidden" value="insertar" id="accion" name="accion"/>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
                 
             </section>
                         
@@ -86,7 +120,8 @@
                                                 ${receta.citaId}
                                             </td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletReceta?accion=editar&id=${receta.idReceta}">
+                                                 <i class="fa fa-edit"></i> Editar </a>                               
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletReceta?accion=eliminar&id=${receta.idReceta}">

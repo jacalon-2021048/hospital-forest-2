@@ -23,12 +23,35 @@ public class PersonaDaoJPA implements IPersonaDAO {
 
     @Override
     public int add(Persona persona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().persist(persona);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            System.out.println("Se produjo un error al intentar insertar el siguiente registro " + persona.toString());
+            e.printStackTrace(System.out);
+            con.getEntityManager().getTransaction().rollback();
+        }
+        return rows;
     }
 
     @Override
     public int update(Persona persona) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int rows = 0;
+        try {
+            con.getEntityManager().getTransaction().begin();
+            con.getEntityManager().merge(persona);
+            con.getEntityManager().getTransaction().commit();
+            rows = 1;
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            con.getEntityManager().getTransaction().rollback();
+            System.out.println("Se produjo un error al intentar actualizar el siguiente registro " + persona.toString());
+            
+        }
+        return rows;
     }
     
     

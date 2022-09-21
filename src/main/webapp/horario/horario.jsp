@@ -42,12 +42,78 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary btn-block" 
+                            <a href="#" class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo"
                                id="btn-agregar">Agregar Horario</a>
                         </div>
                     </div>
                 </div>
-                
+
+                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Agregar Horario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletHorario" class="was-validated">
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <label for="horarioInicio-id" class="col-form-label">Horario Inicio*</label>
+                                        <input type="time" class="form-control" id="horarioInicio-id" name="horarioInicio" value="${horario.getHorarioInicio()}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="horarioFinal-id" class="col-form-label">Horario Final*</label>
+                                        <input type="time" class="form-control" id="horarioFinal-id" name="horarioFinal" value="${horario.getHorarioFinal()}" required>
+                                    </div>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="lunes-id" name="lunes" value="${true}">
+                                        <label for="lunes-id" class="form-check-label">Lunes </label>    
+                                    </div>             
+                                        <br/><p></p>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="martes-id" name="martes" value="${true}">
+                                        <label for="martes-id" class="form-check-label">Martes</label>
+                                    </div>
+                                       <br/><p></p>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="miercoles-id" name="miercoles" value="${true}">
+                                        <label for="miercoles-id" class="form-check-label">Miercoles</label>                                        
+                                    </div>  
+                                        <br/><p></p>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="jueves-id" name="jueves" value="${true}">
+                                        <label for="jueves-id" class="form-check-label">Jueves</label>                               
+                                    </div> 
+                                        <br/><p></p>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="viernes-id" name="viernes" value="${true}">
+                                        <label for="viernes-id" class="form-check-label">Viernes</label>    
+                                    </div> 
+                                        <br/><p></p>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="sabado-id" name="sabado" value="${true}">
+                                        <label for="sabado-id" class="form-check-label">Sabado</label>   
+                                    </div>  
+                                        <br/><p></p>
+                                    <div class="mb-3 form-check form-switch form-check-reverse float-start text-start">
+                                        <input type="checkbox" class="form-check-input" id="domingo-id" name="domingo" value="${true}">
+                                        <label for="domingo-id" class="form-check-label">Domingo</label>  
+                                    </div> 
+                                        <br/><p></p>
+
+                                    <input type="hidden" value="insertar" id="accion" name="accion"/>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>                
+
             </section>
                         
             <section>
@@ -110,7 +176,8 @@
                                                 ${horario.domingo}
                                             </td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletHorario?accion=editar&id=${horario.idHorario}">
+                                                <i class="fa fa-edit"></i> Editar</a>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletHorario?accion=eliminar&id=${horario.idHorario}">

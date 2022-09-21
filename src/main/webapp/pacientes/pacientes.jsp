@@ -43,42 +43,81 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <a href="#" class="btn btn-primary" id="btn-agregar">
+                                <a href="#" class="btn btn-primary" id="btn-agregar" data-bs-toggle="modal" data-bs-target="#addModal">
                                     Agregar Paciente
                                 </a>
                             </div>
                         </div>
                     </div>
-                </section>          
-                <section>
-                    <div class="container mb-5 pb-5">
-                        <div class="row">
-                            <div class="col-12 col-md-10">
-                                <div class="card">
-                                    <div class="card-header" id="cabecera-tabla">
-                                        <h4>Listado de Pacientes</h4>
-                                    </div>
+                </section>
+
+                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Agregar Paciente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletPaciente?accion=insertar" class="was-validated">
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label for="seguro" class="col-form-label">Seguro Medico:</label>
+                                    <input type="number" class="form-control" id="seguro" name="seguro" required>
                                 </div>
-                                <table class="table table-striped">
-                                    <thead class="table text-center" id="elementos-tabla">
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Seguro Medico</th>
-                                            <th>Contacto Emergencia</th>
-                                            <th>No. Persona</th>
-                                            <th>Editar</th>
-                                            <th>Eliminar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="contenido-tabla">
+
+                                <div class="mb-3">
+                                    <label for="emergencia" class="col-form-label">Contacto de Emergencia:</label>
+                                    <input type="text" class="form-control" id="emergencia" name="emergencia" required>
+                                </div>
+                                <div class="mb-3">
+                                        <label for="persona" class="col-form-label">Persona a elegir: </label>
+                                        <input type="number" class="form-control" id="persona" name="persona" step="any" min="1" max="20" required>
+                                    </div>
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <section>
+                <div class="container mb-5 pb-5">
+                    <div class="row">
+                        <div class="col-12 col-md-10">
+                            <div class="card">
+                                <div class="card-header" id="cabecera-tabla">
+                                    <h4>Listado de Pacientes</h4>
+                                </div>
+                            </div>
+                            <table class="table table-striped">
+                                <thead class="table text-center" id="elementos-tabla">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Seguro Medico</th>
+                                        <th>Contacto Emergencia</th>
+                                        <th>No. Persona</th>
+                                        <th>Editar</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="contenido-tabla text-center">
                                     <c:forEach items="${data}" var="paciente">
                                         <tr>
                                             <td>${paciente.idPacientes}</td>
                                             <td>${paciente.seguroMedico}</td>
                                             <td>${paciente.contactoEmergencia}</td>
-                                            <td>${paciente.personaId}</td>
+                                            <td>${paciente.nombrePersona}</td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-primary" href="${pageContext.request.contextPath}/ServletPaciente?accion=editar&id=${paciente.idPacientes}">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletPaciente?accion=eliminar&id=${paciente.idPacientes}">
@@ -89,12 +128,12 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <div class="card text-center bg-success text-white mb-3">
-                                    <div class="card-body">
-                                        <h3>Total de Pacientes:</h3>
-                                        <h4>${totalPacientes}</h4>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="card text-center bg-success text-white mb-3">
+                                <div class="card-body">
+                                    <h3>Total de Pacientes:</h3>
+                                    <h4>${totalPacientes}</h4>
                                 </div>
                             </div>
                         </div>

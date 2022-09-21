@@ -42,12 +42,37 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary btn-block" 
+                            <a href="#" class="btn btn-primary btn-block" data-bs-toggle="modal" data-bs-target="#addModal" data-bs-whatever="@mdo" 
                                id="btn-agregar">Agregar Rol</a>
                         </div>
                     </div>
                 </div>
-                
+
+                <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Agregar Rol</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="${pageContext.request.contextPath}/ServletRol" class="was-validated">
+                                <div class="modal-body">
+
+                                    <div class="mb-3">
+                                        <label for="tipoRol-id" class="col-form-label">Tipo del Rol*</label>
+                                        <input type="text" class="form-control" id="tipoRol-id" name="tipoRol" value="${rol.getTipoRol()}" required>
+                                    </div>
+                                    <input type="hidden" value="insertar" id="accion" name="accion"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>        
+
             </section>
                         
             <section>
@@ -78,7 +103,9 @@
                                                 ${rol.tipoRol}
                                             </td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletRol?accion=editar&id=${rol.idRol}">
+                                                    <i class="fa fa-edit"></i> Editar</a>
+                                                
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletRol?accion=eliminar&id=${rol.idRol}">

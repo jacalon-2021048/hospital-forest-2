@@ -41,13 +41,56 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary" id="btn-agregar">
+                            <a href="#" class="btn btn-primary" id="btn-agregar" data-bs-toggle="modal" data-bs-target="#addModal">
                                 Agregar Habitacion
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
+
+
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar Habitacion</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+
+                        <form method="POST" action="${pageContext.request.contextPath}/ServletHabitacion" class="was-validated">
+
+                            <div class="modal-body">
+
+
+                                <div class="mb-3">
+                                    <label for="nivel" class="col-form-label">Nivel</label>
+                                    <input type="number" class="form-control" id="nivel" name="nivel" min = "1" max="5" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ocupado" class="col-form-label">Ocupado</label>
+                                    <input type="number" class="form-control" id="ocupado" name="ocupado" step="any" min = "0" max="1" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="edificio" class="col-form-label">No. De Edificio</label>
+                                    <input type="number" class="form-control" id="edificio" name="edificio" step="any" min = "1" max="5" required >
+                                </div>
+
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
 
 
             <section>
@@ -79,7 +122,10 @@
                                             <td>${habitaciones.ocupado}</td>
                                             <td>${habitaciones.edificioId}</td>
                                             <td>
-                                                <i class="fa fa-edit"></i> Editar
+                                                <a class="btn btn-success" href="${pageContext.request.contextPath}/ServletHabitacion?accion=editar&idHabitacion=${habitaciones.id}">
+
+                                                    <i class="fa-solid fa-user-pen"></i> editar
+                                                </a>
                                             </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletHabitacion?accion=eliminar&idHabitacion=${habitaciones.id}">

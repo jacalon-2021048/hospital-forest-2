@@ -1,6 +1,7 @@
 package com.hospitalforest.models.domain;
 
 import java.io.Serializable;
+import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -47,10 +48,10 @@ public class Persona implements Serializable{
     private String apellido2;
     
     @Column
-    private String sexo;
+    private char sexo;
     
     @Column(name = "fecha_nacimiento")
-    private String fechaNacimiento;
+    private Date fechaNacimiento;
     
     @Column(name = "correo_electronico")
     private String correoElectronico;
@@ -65,7 +66,7 @@ public class Persona implements Serializable{
         this.id = id;
     }
 
-    public Persona(int id, String nombre1, String nombre2, String nombre3, String apellido1, String apellido2, String sexo, String fechaNacimiento, String correoElectronico, String telefono) {
+    public Persona(int id, String nombre1, String nombre2, String nombre3, String apellido1, String apellido2, char sexo, Date fechaNacimiento, String correoElectronico, String telefono) {
         this.id = id;
         this.nombre1 = nombre1;
         this.nombre2 = nombre2;
@@ -80,7 +81,7 @@ public class Persona implements Serializable{
     
     
 
-    public Persona(String nombre1, String nombre2, String nombre3, String apellido1, String apellido2, String sexo, String fechaNacimiento, String correoElectronico, String telefono) {
+    public Persona(String nombre1, String nombre2, String nombre3, String apellido1, String apellido2, char sexo, Date fechaNacimiento, String correoElectronico, String telefono) {
         this.nombre1 = nombre1;
         this.nombre2 = nombre2;
         this.nombre3 = nombre3;
@@ -142,19 +143,19 @@ public class Persona implements Serializable{
         this.apellido2 = apellido2;
     }
 
-    public String getSexo() {
+    public char getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(char sexo) {
         this.sexo = sexo;
     }
 
-    public String getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

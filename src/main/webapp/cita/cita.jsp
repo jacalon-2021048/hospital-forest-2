@@ -14,7 +14,7 @@
     <head>
         <meta charset="utf-8" />        
         <meta name="viewport" content="width=device-width, initial-scale=1">      
-       <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" /> 
+        <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css" /> 
         <link rel="icon" href="../assets/images/hospital.jpg">
         <link rel="stylesheet" type="text/css" href="../assets/css/hoja-estilo-hospital-entidades.css" />
         <script type="text/javascript" src="../assets/js/099af0269d.js" ></script>
@@ -36,22 +36,106 @@
                 </div>
             </div>
         </header>
-        
+
         <jsp:include page="../WEB-INF/paginas/comunes/cabecera.jsp" />
-        
+
         <main>
             <section id="accions" class="py-4 mb-4">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <a href="#" class="btn btn-primary" id="btn-agregar">
+                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal" id="btn-agregar">
                                 Agregar cita
                             </a>
                         </div>
                     </div>
                 </div>
             </section>
-            
+
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar cita</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="${pageContext.request.contextPath}/ServletCitas" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="descripcion" class="col-form-label">Descripción</label>
+                                    <input type="text" class="form-control" id="descripcion" name="descripcion">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fecha" class="col-form-label">Fecha*</label>
+                                    <input type="date" class="form-control" id="fecha" name="fecha" min="2005-01-01" max="2022-12-31" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="hora" class="col-form-label">Hora*</label>
+                                    <input type="time" class="form-control" id="hora" name="hora" required>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group dropstart col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Doctores*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataDoctor}" var="doctor">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="doctor" name="doctor" value="${doctor.idDoctor}" required>
+                                                        <label for="doctor" class="form-check-label">${doctor.idDoctor}  |  ${doctor.nombrePersona}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group dropend col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Pacientes*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataPaciente}" var="paciente">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="paciente" name="paciente" value="${paciente.idPacientes}" required>
+                                                        <label for="paciente" class="form-check-label">${paciente.idPacientes}  |  ${paciente.nombrePersona}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="btn-group col-12">
+                                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="inside">
+                                            Habitaciones*
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <c:forEach items="${dataHabitaciones}" var="habitacion">
+                                                    <li class="list-group-item">
+                                                        <input type="radio" class="form-check-input" id="habitacion" name="habitacion" value="${habitacion.id}" required>
+                                                        <label for="habitacion" class="form-check-label">${habitacion.id}</label>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="insertar" id="accion" name="accion">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <h6>*Campos obligatorios</h6>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <section>
                 <div class="container mb-5 pb-5">
                     <div class="row">
@@ -68,9 +152,9 @@
                                         <th>Descripción cita</th>
                                         <th>Fecha</th>
                                         <th>Hora</th>
-                                        <th>ID doctor</th>
-                                        <th>ID paciente</th>
-                                        <th>ID habitación</th>
+                                        <th>Nombre doctor</th>
+                                        <th>Nombre paciente</th>
+                                        <th>Número habitación</th>
                                         <th>Editar</th>
                                         <th>Eliminar</th>
                                     </tr>
@@ -82,10 +166,15 @@
                                             <td>${cita.descripcion}</td>
                                             <td>${cita.fecha}</td>
                                             <td>${cita.hora}</td>
-                                            <td>${cita.doctorId}</td>
-                                            <td>${cita.pacienteId}</td>
+                                            <td>${cita.nombreDoctor}</td>
+                                            <td>${cita.nombrePaciente}</td>
                                             <td>${cita.habitacionId}</td>
-                                            <td><i class="fa fa-edit"></i> Editar</td>
+                                            <td>
+                                                <a class="btn btn-danger"
+                                                   href="${pageContext.request.contextPath}/ServletCitas?accion=editar&id=${cita.idCita}">
+                                                    <i class="fa fa-edit"></i> Editar
+                                                </a>
+                                            </td>
                                             <td>
                                                 <a class="btn btn-success text-black bg-opacity-50" href="${pageContext.request.contextPath}/ServletCitas?accion=eliminar&id=${cita.idCita}">
                                                     <i class="fa fa-trash-alt"></i>Eliminar
@@ -104,15 +193,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </section>
         </main>
-        
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
         <script type="text/javascript" src="../assets/js/jquery.flexslider-min.js"></script>
-        <script type="text/javascript" src="../assets/js/script.js"></script>
         <script type="text/javascript" src="../assets/js/bootstrap.bundle.js" ></script>
     </body>
 </html>

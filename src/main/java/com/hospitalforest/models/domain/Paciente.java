@@ -38,7 +38,7 @@ public class Paciente implements Serializable{
     private String contactoEmergencia;
     
     @Column(name = "persona_id")
-    private int personaId;
+    private String nombrePersona;
 
     public Paciente() {
     }
@@ -47,17 +47,17 @@ public class Paciente implements Serializable{
         this.idPacientes = idPacientes;
     }
 
-    public Paciente(int seguroMedico, String contactoEmergencia, int personaId) {
+    public Paciente(int seguroMedico, String contactoEmergencia, String nombrePersona) {
         this.seguroMedico = seguroMedico;
         this.contactoEmergencia = contactoEmergencia;
-        this.personaId = personaId;
+        this.nombrePersona = nombrePersona;
     }
 
-    public Paciente(int idPacientes, int seguroMedico, String contactoEmergencia, int personaId) {
+    public Paciente(int idPacientes, int seguroMedico, String contactoEmergencia, String nombrePersona) {
         this.idPacientes = idPacientes;
         this.seguroMedico = seguroMedico;
         this.contactoEmergencia = contactoEmergencia;
-        this.personaId = personaId;
+        this.nombrePersona = nombrePersona;
     }
 
     public int getIdPacientes() {
@@ -84,21 +84,16 @@ public class Paciente implements Serializable{
         this.contactoEmergencia = contactoEmergencia;
     }
 
-    public int getPersonaId() {
-        return personaId;
+    public String getNombrePersona() {
+        return nombrePersona;
     }
 
-    public void setPersonaId(int personaId) {
-        this.personaId = personaId;
+    public void setNombrePersona(String nombrePersona) {
+        this.nombrePersona = nombrePersona;
     }
 
     @Override
     public String toString() {
-        return "Paciente{" + "idPacientes=" + idPacientes + ", seguroMedico=" + seguroMedico + ", contactoEmergencia=" + contactoEmergencia + ", personaId=" + personaId + '}';
+        return "Paciente{" + "idPacientes=" + idPacientes + ", seguroMedico=" + seguroMedico + ", contactoEmergencia=" + contactoEmergencia + ", personaId=" + nombrePersona + '}';
     }
-
-
-    
-    
-   
 }
