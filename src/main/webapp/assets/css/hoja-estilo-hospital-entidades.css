@@ -1,0 +1,42 @@
+/* 
+    Created on : 29/08/2022, 19:19:24
+    Author     : Jhonatan Jose Acalón Ajanel <jacalon-2021048@kinal.edu.gt>
+*/
+header{
+    /*background-color:#06973e;*/
+    /*background-color: #F7E7CF;*/
+    background-color: #013220;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+#btn-agregar{
+    background-color: #148955;
+}
+
+#cabecera-tabla{
+    background-color: #013220;
+   /* background-color: #2F6674;*/
+    text-align: center;
+    color: white;
+}
+
+#elementos-tabla{
+   /* background-color: #76C210;*/
+    background-color:  #DCE155;
+    border: black;
+}
+
+.contenido-tabla{
+    background-color: #c7eb7a;
+    border: black;
+}
+
+.contenido-tabla-2{
+    background-color: #DDE034;
+}
+
+body{
+   background-image: linear-gradient(175deg, #ffffa6 0, #efffa2 25%, #d5f29d 50%, #bde298 75%, #a8d394 100%);
+}

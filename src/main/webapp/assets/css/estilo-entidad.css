@@ -1,0 +1,36 @@
+
+/* 
+    Created on : 2 sept. 2022, 18:24:33
+    Author     : Alberto Moisés Gerardo Lemus Alvarado
+*/
+
+#boton-agregar{
+    background-color: #148955;
+}
+
+#head-nombre{
+    background-color: #06973E;
+}
+
+.header-control{
+    background-color: #06973E;
+}
+
+#head-tabla{
+    /*background-color: #9FC70F;*/
+    background-color: #148955;
+    color: black;
+}
+
+.head-atributos{
+    /*background-color: #76C210;*/
+    background-color: #c7eb7a;
+}
+
+#atributos{
+    background-color: #78AD91;
+}
+
+#cantidad{
+    background-color: #9fc70f;
+}
